@@ -1,90 +1,100 @@
-# Automated Bottle Filling Station — SysML v2/MBSE Mini Project
+# Automated Bottle Filling Station — SysML v2 / MBSE Mini Project
 
-## 1. Project Objective
+A small Model-Based Systems Engineering (MBSE) learning project that models a simplified automated bottle-filling station in **SysML v2** using **Eclipse SysON**.
 
-This project develops a small Model-Based Systems Engineering (MBSE) model of a simplified automated bottle-filling station.
+The project connects system requirements, structure, operational behaviour, traceability, and a lightweight Python consistency check in one coherent, conceptual model.
 
-The station is intended to:
+> This is a learning project. It is not a representation of a Krones machine and is not intended for industrial production, safety certification, or physical implementation.
 
-1. receive and detect a bottle;
-2. position the bottle correctly;
-3. fill it with a target quantity;
-4. check the fill level;
-5. accept or reject the bottle;
-6. communicate its operating and fault status;
-7. respond safely to an emergency-stop request.
+## Objective
 
-The purpose of the project is to demonstrate how requirements, system structure, behaviour, and verification can be connected in one coherent model. A small Python validator will additionally check the consistency of the requirement-to-component-to-verification relationships.
+Model a station that can receive and detect a bottle, position it, fill it, measure its fill level, accept or reject it, report status, and respond to an emergency-stop request.
 
-This is a conceptual learning project. It does not represent an actual Krones machine and is not intended for industrial production, safety certification, or physical implementation.
+## Model contents
 
-## 2. Stakeholders
+### System structure
 
-| Stakeholder | Main interest |
-|---|---|
-| Production operator | Easy operation, clear status information, and safe stopping |
-| Maintenance technician | Understandable components, fault information, and diagnosability |
-| Production manager | Reliable operation, acceptable throughput, and low rejection rates |
-| Safety responsible stakeholder | Clear emergency-stop behaviour and safe operating assumptions |
-| Systems engineer | Consistent requirements, system structure, behaviour, and verification traceability |
-| Model reviewer | A clear, understandable, and internally consistent systems model |
+The model contains these parts:
 
-## 3. System Boundary
+- `conveyor`
+- `bottleSensor`
+- `fillingUnit`
+- `fillLevelSensor`
+- `rejectMechanism`
+- `controller`
+- `operatorInterface`
+- `emergencyStop`
 
-### 3.1 System of interest
+### Operational behaviour
 
-The system of interest is the automated bottle-filling station. It includes:
+The normal processing flow is:
 
-- conveyor;
-- bottle-detection sensor;
-- filling unit;
-- fill-level sensor;
-- accept/reject mechanism;
-- controller;
-- operator interface or status indicator;
-- emergency-stop device.
+```text
+receiveBottle → detectBottle → positionBottle → fillBottle → measureFillLevel
+                                                        ├→ acceptBottle → reportStatus
+                                                        └→ rejectBottle → reportStatus
+```
 
-### 3.2 External entities
+### Requirements and traceability
 
-The following entities interact with the station but are outside its system boundary:
+| ID | Requirement | Primary satisfying component | Verification method |
+| --- | --- | --- | --- |
+| R-001 | Detect a bottle before filling. | `bottleSensor` | Model inspection |
+| R-002 | Position a detected bottle before filling. | `conveyor` | Model inspection |
+| R-003 | Fill to 500 mL ±5 mL. | `fillingUnit` | Conceptual analysis |
+| R-004 | Measure the fill level after filling. | `fillLevelSensor` | Model inspection |
+| R-005 | Accept bottles within tolerance and reject bottles outside it. | `rejectMechanism` | Logic analysis |
+| R-006 | Stop conveyor and filling within one second of an emergency-stop request. | `controller` | Timing analysis |
 
-- production operator;
-- upstream bottle supply;
-- downstream packaging or collection system;
-- factory power and compressed-air supply;
-- maintenance personnel;
-- wider factory-control systems.
+The numerical fill and timing values are learning assumptions, not industrial specifications.
 
-### 3.3 Included behaviour
+## Project structure
 
-The model covers:
+```text
+model/                       Exported SysON project
+syson/docker-compose.yml     Local SysON setup
+data/traceability.csv        Requirement-to-component-to-verification data
+src/validate_traceability.py Python consistency validator
+tests/                       Automated validator tests
+```
 
-- receiving and detecting a bottle;
-- positioning the bottle;
-- filling the bottle;
-- checking the fill level;
-- accepting or rejecting the bottle;
-- reporting operating and fault states;
-- responding to an emergency-stop request.
+## Run the validator
 
-### 3.4 Excluded behaviour and implementation detail
+Create and activate a virtual environment, then install the development dependency:
 
-The model does not cover:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-dev.txt
+```
 
-- detailed mechanical dimensions;
-- electrical circuit design;
-- PLC implementation;
-- fluid-dynamics simulation;
-- conveyor motor sizing;
-- industrial safety certification;
-- physical hardware construction;
-- integration with a real factory;
-- detailed downstream packaging operations.
+Run the traceability validator:
 
-## 4. Initial Assumptions
+```powershell
+python src/validate_traceability.py
+```
 
-- The station processes one bottle at a time in the simplified normal-flow scenario.
-- The bottle has a conceptual nominal fill volume, such as 500 mL.
-- Numerical values used later are learning assumptions, not official industrial specifications.
-- Sensors and actuators are represented abstractly.
-- Verification is performed through model inspection, analysis, or conceptual test cases rather than physical testing.
+Run the tests:
+
+```powershell
+python -m pytest
+```
+
+The validator checks that the traceability data has complete fields, unique requirement IDs, and the expected six requirements.
+
+## Scope and limitations
+
+Included: conceptual requirements, system structure, operational behaviour, requirement traceability, and verification planning.
+
+Excluded: mechanical dimensions, electrical circuits, PLC implementation, fluid simulation, hardware construction, factory integration, and industrial safety certification.
+
+The Python validator checks the exported traceability CSV; it does **not** parse or validate the SysON model ZIP directly. The SysON model was reviewed manually in the modelling environment.
+
+## Tools
+
+- Eclipse SysON
+- SysML v2
+- Docker Compose
+- Python
+- pytest
+
