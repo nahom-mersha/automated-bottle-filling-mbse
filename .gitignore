@@ -1,0 +1,11 @@
+# Python virtual environment
+.venv/
+
+# Python cache and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# Temporary SysON inspection files
+model/inspection/
