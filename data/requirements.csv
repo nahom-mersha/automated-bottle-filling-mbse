@@ -1,0 +1,7 @@
+﻿"_row_header_";"DeclaredName";"ReqId";"Documentation"
+" ";"detectBottleBeforeFilling";"R-001";"The station shall detect the presence of a bottle before beginning the filling operation."
+" ";"positionBottleBeforeFilling";"R-002";"The station shall position a detected bottle correctly before beginning the filling operation."
+" ";"fillBottleToTargetVolume";"R-003";"The station shall fill each bottle to a nominal target volume of 500 mL within a tolerance of ±5 mL."
+" ";"measureFillLevel";"R-004";"The station shall measure the fill level after the filling operation."
+" ";"acceptOrRejectBottle";"R-005";"The station shall accept bottles within the fill-level tolerance and reject bottles outside it."
+" ";"stopOnEmergencyRequest";"R-006";"The station shall stop the conveyor and filling operation within one second after an emergency-stop request."
