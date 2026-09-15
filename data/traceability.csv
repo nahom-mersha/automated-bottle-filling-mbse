@@ -1,0 +1,7 @@
+req_id,requirement_name,component,verification_method,status
+R-001,detectBottleBeforeFilling,bottleSensor,model inspection,defined
+R-002,positionBottleBeforeFilling,conveyor,model inspection,defined
+R-003,fillBottleToTargetVolume,fillingUnit,conceptual analysis,defined
+R-004,measureFillLevel,fillLevelSensor,model inspection,defined
+R-005,acceptOrRejectBottle,rejectMechanism,logic analysis,defined
+R-006,stopOnEmergencyRequest,controller,timing analysis,defined
