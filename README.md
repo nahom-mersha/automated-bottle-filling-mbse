@@ -48,11 +48,25 @@ receiveBottle → detectBottle → positionBottle → fillBottle → measureFill
 
 The numerical fill and timing values are learning assumptions, not industrial specifications.
 
+## Model diagrams
+
+The system structure is shown below:
+
+![System structure](diagrams/system-structure.png)
+
+Additional exported diagrams are available in the [diagrams/](diagrams/) folder:
+
+- [component-interconnections.png](diagrams/component-interconnections.png) — component connections and named links.
+- [operational-behaviour.png](diagrams/operational-behaviour.png) — bottle-processing action flow.
+- [requirements-table.png](diagrams/requirements-table.png) — the six SysML requirements.
+
 ## Project structure
 
 ```text
 model/                       Exported SysON project
+diagrams/                    PNG exports of the SysON model views
 syson/docker-compose.yml     Local SysON setup
+data/requirements.csv        Requirements table exported from SysON
 data/traceability.csv        Requirement-to-component-to-verification data
 src/validate_traceability.py Python consistency validator
 tests/                       Automated validator tests
@@ -82,6 +96,8 @@ python -m pytest
 
 The validator checks that the traceability data has complete fields, unique requirement IDs, and the expected six requirements.
 
+The SysON requirements table was exported as `data/requirements.csv`. The separate `data/traceability.csv` file records the project’s requirement-to-component-to-verification mapping used by the Python validator.
+
 ## Scope and limitations
 
 Included: conceptual requirements, system structure, operational behaviour, requirement traceability, and verification planning.
@@ -97,4 +113,3 @@ The Python validator checks the exported traceability CSV; it does **not** parse
 - Docker Compose
 - Python
 - pytest
-
